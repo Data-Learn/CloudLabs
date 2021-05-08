@@ -10,7 +10,7 @@
 ### Создаем S3 Bucket 
 1. Находим сервис _S3_ в главном меню и открываем его.
 ![First image](./images/1.png)
-![](https://github.com/LakshinEdgar/dl/blob/main/images/2.png)
+![Second image](./images/2.png)
 2. Кликаем на кнопку **Create bucket**.
 ![](https://github.com/LakshinEdgar/dl/blob/main/images/3.png)
 3. Устанавливаем значения:
