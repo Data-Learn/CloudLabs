@@ -16,7 +16,7 @@
 
 3. Клонируем репозиторий и переходим в склонированую директорию
     
-    ``git clone https://github.com/gregrahn/tpch-kit``
+    ``git clone https://github.com/gregrahn/tpch-kit``<br>
     ``cd tpch-kit/dbgen``
 
 4. Забускаем билд библиотеки для операционой системы нашего инстанса
@@ -25,7 +25,7 @@
 
 5. Создаем дерикторию для нашых данных 
     
-    ``cd $HOME``
+    ``cd $HOME``<br>
     ``mkdir emrdata``
 
 6. Пропипеременую окружение для библиотеки генерации данных
@@ -34,17 +34,17 @@
 
 7. Запускаем генерацию  данных
     
-    ``cd tpch-kit/dbgen``
+    ``cd tpch-kit/dbgen``<br>
     ``./dbgen -v -T o -s 10``
 
-    -v - для подробного режима
-    -T - для уточнения наших таблиц
-    o - для 2 таблиц, которые мы создадим
+    -v - для подробного режима<br>
+    -T - для уточнения наших таблиц<br>
+    o - для 2 таблиц, которые мы создадим<br>
     -s - для размера данных 10Gb
 
 8. Переходим в дирикторию с сгенерироваными данными
     
-    ``cd $HOME/ermdata``
+    ``cd $HOME/ermdata``<br>
     ``ls``
    
     увидим два созанных файла: ``lineitem.tbl orders.tbl``
@@ -56,22 +56,24 @@
     - используй такойже регион как и для ec2 инстанса что-б уменшить разходы на сервисы в AWS
 
 10. копируем созданные файлы в бакет
+
     ``aws s3 cp $HOME/emrdata s3://bigdatalabs/emrdata --recursive``
 
 11. Давайте создадим датасет для лабараторной для redshift:
 
-    ``cd`` - ето еквивалент команды ``cd $HOME``
-    ``mkdir redshiftdata``
-    ``export DSS_PATH=$HOME/redshiftdata``
+    ``cd`` - ето еквивалент команды ``cd $HOME``<br>
+    ``mkdir redshiftdata``<br>
+    ``export DSS_PATH=$HOME/redshiftdata``<br>
     ``./dbgen -v -T o -s 40``
 
 12. Перейдем в дирикторию с новыми данными
-    ``cd $HOME/redshiftdata``
+
+    ``cd $HOME/redshiftdata``<br>
     ``ls -l``
     
 13. Давай поделим ети файлы на более мелкие, ето поможет нам подгрузить данные в s3 хранилище быстрее и является хорошей практикой для работы с redshift. Сначало проверим количество строчек в файле orders.tbl
 
-   ``wc -l orders.tbl``
+   ``wc -l orders.tbl``<br>
     > 60000000 orders.tbl
 
 14. Давайте разобьем файл на 4 части
@@ -79,21 +81,23 @@
     ``split -d -l 15000000 -a 4 orders.tbl orders.tbl.``
 
 15. так же разобьем файл lineitem.tbl
-    ``wc -l lineitem.tbl``
-    ``240012290 lineitem.tbl``
+
+    ``wc -l lineitem.tbl``<br>
+    ``240012290 lineitem.tbl``<br>
     ``split -d -l 60000000 -a 4 lineitem.tbl lineitem.tbl.``
 
 16. На выходе получим
-    lineitem.tbl
-    lineitem.tbl.0000
-    lineitem.tbl.0001
-    lineitem.tbl.0002
-    lineitem.tbl.0003
-    lineitem.tbl.0004
-    orders.tbl
-    orders.tbl.0000
-    orders.tbl.0001
-    orders.tbl.0002
+
+    lineitem.tbl<br>
+    lineitem.tbl.0000<br>
+    lineitem.tbl.0001<br>
+    lineitem.tbl.0002<br>
+    lineitem.tbl.0003<br>
+    lineitem.tbl.0004<br>
+    orders.tbl<br>
+    orders.tbl.0000<br>
+    orders.tbl.0001<br>
+    orders.tbl.0002<br>
     orders.tbl.0003
 
 17. Нам уже не нужны файлы lineitem.tbl и orders.tbl
@@ -101,6 +105,7 @@
     ``rm lineitem.tbl orders.tbl``
 
 18. Копируем новые данные в s3 хранилище
-    ```aws s3 cp $HOME/redshiftdata s3://bigdatalabs/redshiftdata --recursive``
+
+    ``aws s3 cp $HOME/redshiftdata s3://bigdatalabs/redshiftdata --recursive``
 
 19. Инстанс EC2 нам уже не нужен, можем его отключить
